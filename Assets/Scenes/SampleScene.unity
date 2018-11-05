@@ -12647,8 +12647,9 @@ MonoBehaviour:
   A: {fileID: 1259555226}
   B: {fileID: 1944127694}
   destino: {fileID: 950820926}
-  velocidade: 2
+  velocidade: 0
   animator: {fileID: 1424997280}
+  player: {fileID: 1864902417}
 --- !u!1 &1452640292
 GameObject:
   m_ObjectHideFlags: 0
@@ -14144,7 +14145,8 @@ MonoBehaviour:
   A: {fileID: 1811509993}
   B: {fileID: 683432562}
   destino: {fileID: 1613236062}
-  velocidade: 2
+  player: {fileID: 1864902417}
+  animator: {fileID: 1521722593}
 --- !u!212 &1521722591
 SpriteRenderer:
   m_ObjectHideFlags: 0

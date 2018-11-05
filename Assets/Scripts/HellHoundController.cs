@@ -6,12 +6,11 @@ public class HellHoundController : MonoBehaviour {
 
 	[SerializeField]
 	private Transform A, B, destino;
-
-	[SerializeField]
-	private float velocidade;
+	private float velocidade = 2f;
 
 	[SerializeField]
 	private Animator animator;
+	public Transform player;
 	
 	void Start () {
 		destino.position = B.position;
@@ -37,6 +36,15 @@ public class HellHoundController : MonoBehaviour {
 
 		if(velocidade > 0.1f){
 			animator.SetFloat("Speed", velocidade);
+		}
+
+		if (Vector2.Distance(player.transform.position, transform.position) < 6)
+		{
+			this.velocidade = 5f;
+			animator.SetBool("Run", true);
+		} else{
+			this.velocidade = 2f;
+			animator.SetBool("Run", false);
 		}
 	}
 

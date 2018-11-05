@@ -6,9 +6,12 @@ public class SkeletonController : MonoBehaviour {
 
 	[SerializeField]
 	private Transform A, B, destino;
+	private float velocidade = 2f;
+
+	public Transform player;
 
 	[SerializeField]
-	private float velocidade;
+	private Animator animator;
 	
 	void Start () {
 		destino.position = B.position;
@@ -30,6 +33,15 @@ public class SkeletonController : MonoBehaviour {
 				Flip();
 				destino.position = A.position;
 			}
+		}
+
+		if (Vector2.Distance(player.transform.position, transform.position) <= 1)
+		{
+			this.velocidade = 0f;
+			animator.SetBool("Attack", true);
+		} else if(Vector2.Distance(player.transform.position, transform.position) > 3){
+			this.velocidade = 2f;
+			animator.SetBool("Attack", false);
 		}
 	}
 
