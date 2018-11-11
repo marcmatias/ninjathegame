@@ -13,12 +13,13 @@ public class PlayerController : MonoBehaviour {
 	public LayerMask whatIsGround;
 
 	private bool facingRight = true;
-	private int extraJumps;
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .03f;
 	private Vector3 m_Velocity = Vector3.zero;
 	private float runSpeed = 5f;
 	[SerializeField] private Animator animator;
 	[SerializeField] private bool crouch;
+	[SerializeField] private GameObject attack;
+	[SerializeField] private GameObject attack2;
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();	
 	}
@@ -52,14 +53,12 @@ public class PlayerController : MonoBehaviour {
 
 	void Update () {
 		if(isGrounded == true){
-			extraJumps = 1;
 			animator.SetBool("isJumping", false);
 		}else{
 			animator.SetBool("isJumping", true);
 		}
-		if(Input.GetKeyDown(KeyCode.Space) && extraJumps > 0){
+		if(Input.GetKeyDown(KeyCode.Space) && isGrounded == true){
 			rb2d.AddForce(new Vector2(0f, jumpForce));
-			extraJumps--;
 		}
 
 		if (Input.GetKeyDown(KeyCode.DownArrow)){
@@ -79,5 +78,24 @@ public class PlayerController : MonoBehaviour {
 		}else if (!Input.GetKeyDown(KeyCode.C)){
 			animator.SetBool("isAttacking2", false);
 		}
+	}
+	public void onColliderAttack()
+	{
+		attack.GetComponent<BoxCollider2D>().enabled = true;
+	}
+
+	public void offColliderAttack()
+	{
+		attack.GetComponent<BoxCollider2D>().enabled = false;
+	}
+
+	public void onColliderAttack2()
+	{
+		attack2.GetComponent<BoxCollider2D>().enabled = true;
+	}
+
+	public void offColliderAttack2()
+	{
+		attack2.GetComponent<BoxCollider2D>().enabled = false;
 	}
 }
