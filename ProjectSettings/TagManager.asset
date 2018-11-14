@@ -7,6 +7,7 @@ TagManager:
   - enemy
   - Attack
   - Attack2
+  - Slime
   layers:
   - Default
   - TransparentFX

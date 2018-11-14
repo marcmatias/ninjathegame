@@ -59,38 +59,30 @@ public class SlimeController : MonoBehaviour {
 		if (other.CompareTag("Attack"))
 		{
 			numberAttacks += 1;
-			
-			if(numberAttacks <= 2){
-				animator.SetBool("Hurt", true);
-			} else if(numberAttacks >= 3){
-				animator.SetTrigger("Die");
-				StartCoroutine(WaitAndAnimate(0.4f, other));
-			}
+			Attacks(numberAttacks);
 		}
 
 		else if (other.CompareTag("Attack2"))
 		{
 			numberAttacks += 2;
-			if(numberAttacks <= 2){
-				animator.SetBool("Hurt", true);
-			} else if(numberAttacks >= 3){
-				StartCoroutine(WaitAndAnimate(0.4f, other));
-				animator.SetTrigger("Die");
-			}
+			Attacks(numberAttacks);
 		}
 	}
-
-	private void OnTriggerExit2D(Collider2D other)
-	{
-		if (other.CompareTag("Attack") || other.CompareTag("Attack2"))
-		{
-			animator.SetBool("Hurt", false);
-		}
-	}
-
-	public IEnumerator WaitAndAnimate(float waitTime, Collider2D other) {
+	public IEnumerator WaitAndAnimate(float waitTime, int numberAttacks) {
 		yield return new WaitForSeconds(waitTime);
-		Destroy(this.gameObject);
+		if(numberAttacks < 3)enemySr.color = new Color (1, 1, 1, 1);
+		else Destroy(this.gameObject);
+	}
+
+	public void Attacks(int numberAttacks){
+		if(numberAttacks < 3){
+			enemySr.color = new Color (1, 0, 0, .5f);
+			StartCoroutine(WaitAndAnimate(0.2f, numberAttacks));
+		} else if(numberAttacks > 2){
+			StartCoroutine(WaitAndAnimate(0.4f, numberAttacks));
+			animator.SetTrigger("Die");
 		}
+	}
+
 }
 

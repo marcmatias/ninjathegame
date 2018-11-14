@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 27407835}
   m_Layer: 0
   m_Name: Slime
-  m_TagString: enemy
+  m_TagString: Slime
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14254,6 +14254,7 @@ MonoBehaviour:
   destino: {fileID: 1613236062}
   player: {fileID: 1864902417}
   animator: {fileID: 1521722593}
+  enemySr: {fileID: 1521722591}
 --- !u!212 &1521722591
 SpriteRenderer:
   m_ObjectHideFlags: 0

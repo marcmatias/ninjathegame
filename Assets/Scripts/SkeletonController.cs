@@ -11,7 +11,10 @@ public class SkeletonController : MonoBehaviour {
 	public Transform player;
 
 	[SerializeField]
-	private Animator animator;
+	private Animator animator;	
+	private int numberAttacks = 0;
+	[SerializeField]
+	private SpriteRenderer enemySr;
 	
 	void Start () {
 		destino.position = B.position;
@@ -39,7 +42,7 @@ public class SkeletonController : MonoBehaviour {
 		{
 			this.velocidade = 0f;
 			animator.SetBool("Attack", true);
-		} else if(Vector2.Distance(player.transform.position, transform.position) > 3){
+		} else if(Vector2.Distance(player.transform.position, transform.position) > 3 && numberAttacks < 5){
 			this.velocidade = 2f;
 			animator.SetBool("Attack", false);
 		}
@@ -49,5 +52,36 @@ public class SkeletonController : MonoBehaviour {
 		Vector3 Scaler = transform.localScale;
 		Scaler.x *= -1;
 		transform.localScale = Scaler;
+	}
+
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.CompareTag("Attack"))
+		{
+			numberAttacks += 1;
+			Attacks(numberAttacks);
+		}
+		
+		else if (other.CompareTag("Attack2"))
+		{
+			numberAttacks += 2;
+			Attacks(numberAttacks);
+		}
+	}
+	public IEnumerator WaitAndAnimate(float waitTime, int numberAttacks) {
+		yield return new WaitForSeconds(waitTime);
+		if(numberAttacks < 5)enemySr.color = new Color (1, 1, 1, 1);
+		else Destroy(this.gameObject);
+	}
+
+	public void Attacks(int numberAttacks){
+		if(numberAttacks < 5){
+			enemySr.color = new Color (1, 0, 0, .5f);
+			StartCoroutine(WaitAndAnimate(0.2f, numberAttacks));
+		} else if(numberAttacks > 4){
+			this.velocidade = 0f;
+			StartCoroutine(WaitAndAnimate(1.4f, numberAttacks));
+			animator.SetTrigger("Die");
+		}
 	}
 }
