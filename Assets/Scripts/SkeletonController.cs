@@ -15,7 +15,9 @@ public class SkeletonController : MonoBehaviour {
 	private int numberAttacks = 0;
 	[SerializeField]
 	private SpriteRenderer enemySr;
-	
+	[SerializeField]
+	private CapsuleCollider2D enemyCc;
+	private bool facingRight;
 	void Start () {
 		destino.position = B.position;
 		transform.position = A.position;
@@ -38,12 +40,17 @@ public class SkeletonController : MonoBehaviour {
 			}
 		}
 
-		if (Vector2.Distance(player.transform.position, transform.position) <= 1)
+		if (Vector2.Distance(player.transform.position, transform.position) <= 1.4)
 		{
 			this.velocidade = 0f;
+			if((player.transform.position.x > transform.position.x) && (facingRight == true)) Flip();
+
+			if ((player.transform.position.x < transform.position.x)  && (facingRight == false)) Flip();
 			animator.SetBool("Attack", true);
-		} else if(Vector2.Distance(player.transform.position, transform.position) > 3 && numberAttacks < 5){
+		} else if(Vector2.Distance(player.transform.position, transform.position) > 3.5 && numberAttacks < 5){
 			this.velocidade = 2f;
+			if ((destino.position == A.position) && (facingRight == false)) Flip();
+			else if ((destino.position == B.position) && (facingRight == true)) Flip();
 			animator.SetBool("Attack", false);
 		}
 	}
@@ -52,6 +59,7 @@ public class SkeletonController : MonoBehaviour {
 		Vector3 Scaler = transform.localScale;
 		Scaler.x *= -1;
 		transform.localScale = Scaler;
+		facingRight = !facingRight;
 	}
 
 	private void OnTriggerEnter2D(Collider2D other)
@@ -80,8 +88,16 @@ public class SkeletonController : MonoBehaviour {
 			StartCoroutine(WaitAndAnimate(0.2f, numberAttacks));
 		} else if(numberAttacks > 4){
 			this.velocidade = 0f;
-			StartCoroutine(WaitAndAnimate(1.4f, numberAttacks));
+			enemyCc.enabled = false;
 			animator.SetTrigger("Die");
+			StartCoroutine(WaitAndAnimate(1.6f, numberAttacks));
 		}
+	}
+
+	public void AnimationMovement(){
+		transform.position = new Vector3(transform.position.x, -0.99f, transform.position.z);
+	}
+	public void AttackMovementOff(){
+		transform.position = new Vector3(transform.position.x, -0.66f, transform.position.z);
 	}
 }

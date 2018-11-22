@@ -11,8 +11,6 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] public Transform groundCheck;
 	public float checkRadious;
 	public LayerMask whatIsGround;
-
-	private bool facingRight = true;
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .03f;
 	private Vector3 m_Velocity = Vector3.zero;
 	private float runSpeed = 5f;
@@ -20,6 +18,11 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] private bool crouch;
 	[SerializeField] private GameObject attack;
 	[SerializeField] private GameObject attack2;
+	private bool facingRight;
+	public bool FacingRight
+	{
+		get { return facingRight; }
+	}
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();	
 	}
@@ -37,18 +40,11 @@ public class PlayerController : MonoBehaviour {
 		Vector3 targetVelocity = new Vector2(moveInput, rb2d.velocity.y);
 		rb2d.velocity = Vector3.SmoothDamp(rb2d.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
-		if(facingRight == false && moveInput > 0){
+		if(facingRight == true && moveInput > 0){
 			Flip();
-		} else if (facingRight == true && moveInput < 0){
+		} else if (facingRight == false && moveInput < 0){
 			Flip();
 		}
-	}
-
-	void Flip(){
-		facingRight = !facingRight;
-		Vector3 Scaler = transform.localScale;
-		Scaler.x *= -1;
-		transform.localScale = Scaler;
 	}
 
 	void Update () {
@@ -78,6 +74,13 @@ public class PlayerController : MonoBehaviour {
 		}else if (!Input.GetKeyDown(KeyCode.C)){
 			animator.SetBool("isAttacking2", false);
 		}
+	}
+
+	void Flip(){
+		facingRight = !facingRight;
+		Vector3 Scaler = transform.localScale;
+		Scaler.x *= -1;
+		transform.localScale = Scaler;
 	}
 	public void onColliderAttack()
 	{

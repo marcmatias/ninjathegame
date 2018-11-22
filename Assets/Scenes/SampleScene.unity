@@ -150,6 +150,8 @@ MonoBehaviour:
   player: {fileID: 1864902417}
   animator: {fileID: 27407834}
   enemySr: {fileID: 27407832}
+  facingRight: 0
+  enemyPc: {fileID: 27407835}
 --- !u!212 &27407832
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -290,7 +292,6 @@ GameObject:
   m_Component:
   - component: {fileID: 54218389}
   - component: {fileID: 54218391}
-  - component: {fileID: 54218390}
   m_Layer: 9
   m_Name: Attack
   m_TagString: Attack
@@ -311,17 +312,6 @@ Transform:
   m_Father: {fileID: 1864902417}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &54218390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 54218388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 869e6fc995792654991c61fff74e6e74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &54218391
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -334,7 +324,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.10744731, y: 0.029640675}
+  m_Offset: {x: 0.10782437, y: 0.029640675}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -345,7 +335,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.27380407, y: 0.3479058}
+  m_Size: {x: 0.27455825, y: 0.3479058}
   m_EdgeRadius: 0
 --- !u!1 &519420028
 GameObject:
@@ -12657,6 +12647,8 @@ GameObject:
   - component: {fileID: 1424997281}
   - component: {fileID: 1424997280}
   - component: {fileID: 1424997283}
+  - component: {fileID: 1424997284}
+  - component: {fileID: 1424997285}
   m_Layer: 0
   m_Name: Hell-Hound
   m_TagString: enemy
@@ -12757,6 +12749,51 @@ MonoBehaviour:
   destino: {fileID: 950820926}
   animator: {fileID: 1424997280}
   player: {fileID: 1864902417}
+--- !u!50 &1424997284
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1424997279}
+  m_BodyType: 0
+  m_Simulated: 0
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!61 &1424997285
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1424997279}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.1111112, y: 1.3333334}
+    newSize: {x: 2.1111112, y: 1.3333334}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.1111112, y: 1.3333334}
+  m_EdgeRadius: 0
 --- !u!1 &1452640292
 GameObject:
   m_ObjectHideFlags: 0
@@ -14255,6 +14292,7 @@ MonoBehaviour:
   player: {fileID: 1864902417}
   animator: {fileID: 1521722593}
   enemySr: {fileID: 1521722591}
+  enemyCc: {fileID: 1521722594}
 --- !u!212 &1521722591
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14444,7 +14482,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.097154304, y: -0.032553762}
+  m_Offset: {x: 0.09544216, y: -0.032553762}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -14455,7 +14493,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3043287, y: 0.24242324}
+  m_Size: {x: 0.3009044, y: 0.24242324}
   m_EdgeRadius: 0
 --- !u!1 &1683432139
 GameObject:

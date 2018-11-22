@@ -16,6 +16,10 @@ public class SlimeController : MonoBehaviour {
 	private int numberAttacks = 0;
 	[SerializeField]
 	private SpriteRenderer enemySr;
+	[SerializeField]
+	private bool facingRight;
+	[SerializeField]
+	private PolygonCollider2D enemyPc;
 	void Start () {
 		destino.position = B.position;
 		transform.position = A.position;
@@ -38,12 +42,17 @@ public class SlimeController : MonoBehaviour {
 			}
 		}
 
-		if (Vector2.Distance(player.transform.position, transform.position) <= 1.3f)
+		if (Vector2.Distance(player.transform.position, transform.position) <= 1.5f)
 		{
 			this.velocidade = 0f;
+			if((player.transform.position.x > transform.position.x) && (facingRight == true)) Flip();
+
+			if ((player.transform.position.x < transform.position.x)  && (facingRight == false)) Flip();
 			animator.SetBool("Attack", true);
-		} else if(Vector2.Distance(player.transform.position, transform.position) > 1.3f){
+		} else if(Vector2.Distance(player.transform.position, transform.position) > 1.5f){
 			this.velocidade = 2f;
+			if ((destino.position == A.position) && (facingRight == false)) Flip();
+			else if ((destino.position == B.position) && (facingRight == true)) Flip();
 			animator.SetBool("Attack", false);
 		}
 	}
@@ -52,8 +61,9 @@ public class SlimeController : MonoBehaviour {
 		Vector3 Scaler = transform.localScale;
 		Scaler.x *= -1;
 		transform.localScale = Scaler;
+		facingRight = !facingRight;
 	}
-
+	
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.CompareTag("Attack"))
@@ -79,8 +89,9 @@ public class SlimeController : MonoBehaviour {
 			enemySr.color = new Color (1, 0, 0, .5f);
 			StartCoroutine(WaitAndAnimate(0.2f, numberAttacks));
 		} else if(numberAttacks > 2){
-			StartCoroutine(WaitAndAnimate(0.4f, numberAttacks));
+			enemyPc.enabled = false;
 			animator.SetTrigger("Die");
+			StartCoroutine(WaitAndAnimate(0.4f, numberAttacks));
 		}
 	}
 
