@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\SkeletonController.cs" />
      <Compile Include="Assets\Scripts\SlimeController.cs" />
+     <Compile Include="Assets\Scripts\Vida.cs" />
      <None Include="Assets\Sprites\Enemys\Hell-Hound-Files\public-license.txt" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>C:/Users/User/Documents/workspaces/unity/Ninja/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>

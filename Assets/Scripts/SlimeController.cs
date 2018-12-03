@@ -20,6 +20,9 @@ public class SlimeController : MonoBehaviour {
 	private bool facingRight;
 	[SerializeField]
 	private PolygonCollider2D enemyPc;
+	[SerializeField] private GameObject attack;
+
+	private 
 	void Start () {
 		destino.position = B.position;
 		transform.position = A.position;
@@ -93,6 +96,16 @@ public class SlimeController : MonoBehaviour {
 			animator.SetTrigger("Die");
 			StartCoroutine(WaitAndAnimate(0.4f, numberAttacks));
 		}
+	}
+
+	public void onColliderAttack()
+	{
+		attack.GetComponent<BoxCollider2D>().enabled = true;
+	}
+
+	public void offColliderAttack()
+	{
+		attack.GetComponent<BoxCollider2D>().enabled = false;
 	}
 
 }

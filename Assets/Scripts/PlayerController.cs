@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+	[SerializeField] private Vida scriptVida;
 	[SerializeField] private float jumpForce;
 	private float moveInput = 0f;
 	private Rigidbody2D rb2d;
@@ -100,5 +101,13 @@ public class PlayerController : MonoBehaviour {
 	public void offColliderAttack2()
 	{
 		attack2.GetComponent<BoxCollider2D>().enabled = false;
+	}
+
+	private void OnCollisionEnter2D(Collision2D other)
+	{
+		if (other.gameObject.CompareTag("enemy_attack"))
+		{
+			scriptVida.diminuirVida(10);
+		}
 	}
 }
