@@ -18,6 +18,7 @@ public class SkeletonController : MonoBehaviour {
 	[SerializeField]
 	private CapsuleCollider2D enemyCc;
 	private bool facingRight;
+	[SerializeField] private GameObject attack;
 	void Start () {
 		destino.position = B.position;
 		transform.position = A.position;
@@ -99,5 +100,15 @@ public class SkeletonController : MonoBehaviour {
 	}
 	public void AttackMovementOff(){
 		transform.position = new Vector3(transform.position.x, -0.66f, transform.position.z);
+	}
+
+	public void onColliderAttack()
+	{
+		attack.GetComponent<BoxCollider2D>().enabled = true;
+	}
+
+	public void offColliderAttack()
+	{
+		attack.GetComponent<BoxCollider2D>().enabled = false;
 	}
 }

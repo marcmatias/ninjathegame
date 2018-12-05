@@ -9,6 +9,9 @@ TagManager:
   - Attack2
   - Slime
   - enemy_attack
+  - enemy_attack_skeleton
+  - enemy_attack_hellhound
+  - life
   layers:
   - Default
   - TransparentFX

@@ -23,6 +23,7 @@ public class HellHoundController : MonoBehaviour {
 
 	private bool died;
 	
+	[SerializeField] private GameObject attack;
 	void Start () {
 		destino.position = B.position;
 		transform.position = A.position;
@@ -112,5 +113,15 @@ public class HellHoundController : MonoBehaviour {
 			this.velocidade = 0.1f;
 			StartCoroutine(WaitAndAnimate(0.5f, numberAttacks));
 		}
+	}
+
+	public void onColliderAttack()
+	{
+		attack.GetComponent<BoxCollider2D>().enabled = true;
+	}
+
+	public void offColliderAttack()
+	{
+		attack.GetComponent<BoxCollider2D>().enabled = false;
 	}
 }

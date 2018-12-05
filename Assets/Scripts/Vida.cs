@@ -10,6 +10,8 @@ public class Vida : MonoBehaviour {
 	private int vida;
 	[SerializeField]
 	private Text textVida;
+
+	public bool vivo = true;
 	
 	void Start () {
 		
@@ -17,18 +19,22 @@ public class Vida : MonoBehaviour {
 	
 	
 	void Update () {
-		if(this.vida <= 0)
+		if(this.vida == 0)
 		{
 			print("Morrer");
+			vivo = false;
 		}
 	}
 
-	public void diminuirVida(int vida)
+	public void alterarVida(int vida)
 	{
 		this.vida -= vida;
 		if (this.vida <= 0)
 		{
 			this.vida = 0;
+		} else if (this.vida > 100)
+		{
+			this.vida = 100;
 		}
 		textVida.text = "Vida: " + this.vida.ToString();
 	}

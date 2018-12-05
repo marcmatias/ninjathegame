@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		get { return facingRight; }
 	}
+	private int x = 0;
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();	
 	}
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour {
 	void FixedUpdate(){
 
 		isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadious, whatIsGround);
-		if(crouch == false && animator.GetBool("isAttacking") == false && animator.GetBool("isAttacking2") == false){
+		if(crouch == false && animator.GetBool("isAttacking") == false && animator.GetBool("isAttacking2") == false && scriptVida.vivo == true){
 			moveInput = Input.GetAxisRaw("Horizontal") * runSpeed;
 		} else{
 			moveInput = 0f;
@@ -54,7 +55,7 @@ public class PlayerController : MonoBehaviour {
 		}else{
 			animator.SetBool("isJumping", true);
 		}
-		if(Input.GetKeyDown(KeyCode.Space) && isGrounded == true){
+		if(Input.GetKeyDown(KeyCode.Space) && isGrounded == true && scriptVida.vivo == true){
 			rb2d.AddForce(new Vector2(0f, jumpForce));
 		}
 
@@ -74,6 +75,10 @@ public class PlayerController : MonoBehaviour {
 			animator.SetBool("isAttacking2", true);
 		}else if (!Input.GetKeyDown(KeyCode.C)){
 			animator.SetBool("isAttacking2", false);
+		}
+		if (scriptVida.vivo == false && x == 0){
+			animator.SetTrigger("isDead");
+			x++;
 		}
 	}
 
@@ -103,11 +108,23 @@ public class PlayerController : MonoBehaviour {
 		attack2.GetComponent<BoxCollider2D>().enabled = false;
 	}
 
-	private void OnCollisionEnter2D(Collision2D other)
+	private void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.gameObject.CompareTag("enemy_attack"))
 		{
-			scriptVida.diminuirVida(10);
+			scriptVida.alterarVida(5);
+		}
+		if (other.gameObject.CompareTag("enemy_attack_skeleton"))
+		{
+			scriptVida.alterarVida(10);
+		}
+		if (other.gameObject.CompareTag("enemy_attack_hellhound"))
+		{
+			scriptVida.alterarVida(8);
+		}
+		if (other.gameObject.CompareTag("life"))
+		{
+			scriptVida.alterarVida(-100);
 		}
 	}
 }
