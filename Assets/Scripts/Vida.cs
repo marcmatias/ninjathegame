@@ -21,7 +21,6 @@ public class Vida : MonoBehaviour {
 	void Update () {
 		if(this.vida == 0)
 		{
-			print("Morrer");
 			vivo = false;
 		}
 	}

@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] private GameObject attack;
 	[SerializeField] private GameObject attack2;
 	private bool facingRight;
+	private int i = 0;
 	public bool FacingRight
 	{
 		get { return facingRight; }
@@ -52,7 +53,7 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		if(isGrounded == true){
 			animator.SetBool("isJumping", false);
-		}else{
+		}else if (isGrounded == false && scriptVida.vivo == true){
 			animator.SetBool("isJumping", true);
 		}
 		if(Input.GetKeyDown(KeyCode.Space) && isGrounded == true && scriptVida.vivo == true){
@@ -125,6 +126,16 @@ public class PlayerController : MonoBehaviour {
 		if (other.gameObject.CompareTag("life"))
 		{
 			scriptVida.alterarVida(-100);
+		}
+		if (other.gameObject.CompareTag("queda"))
+		{
+			scriptVida.alterarVida(100);
+			this.GetComponent<CapsuleCollider2D>().enabled = false;
+			this.GetComponent<SpriteRenderer>().color = new Color (1, 0, 0, .5f);
+			if (i == 0){
+				rb2d.AddForce(new Vector2(0f, 1900f));
+				i++;
+			}
 		}
 	}
 }
