@@ -677,6 +677,8 @@ MonoBehaviour:
   destino: {fileID: 1989478575}
   player: {fileID: 1864902417}
   animator: {fileID: 544866948}
+  enemySr: {fileID: 544866949}
+  enemyPc: {fileID: 544866947}
 --- !u!1 &642591592
 GameObject:
   m_ObjectHideFlags: 0

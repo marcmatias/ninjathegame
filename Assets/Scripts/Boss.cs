@@ -15,6 +15,13 @@ public class Boss : MonoBehaviour {
 
 	private bool seePlayer;
 
+	[SerializeField]
+	private SpriteRenderer enemySr;
+
+	[SerializeField]
+	private BoxCollider2D enemyPc;
+
+	private bool isDead;
 	void Start () {
 		destino.position = B.position;
 		transform.position = A.position;	
@@ -46,7 +53,7 @@ public class Boss : MonoBehaviour {
 			animator.SetBool("Walk", false);
 		}
 
-		if (Vector2.Distance(player.transform.position, transform.position) <= 2 && seePlayer == true)
+		if ((Vector2.Distance(player.transform.position, transform.position) <= 2 && seePlayer == true) && isDead == false)
 		{
 			this.velocidade = 0f;
 			if((player.transform.position.x > transform.position.x) && (facingRight == true)) Flip();
@@ -69,5 +76,37 @@ public class Boss : MonoBehaviour {
 		transform.localScale = Scaler;
 		facingRight = !facingRight;
 	}
+
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.CompareTag("Attack"))
+		{
+			numberAttacks += 1;
+			Attacks(numberAttacks);
+		}
+
+		else if (other.CompareTag("Attack2"))
+		{
+			numberAttacks += 2;
+			Attacks(numberAttacks);
+		}
+	}
+	public IEnumerator WaitAndAnimate(float waitTime, int numberAttacks) {
+		yield return new WaitForSeconds(waitTime);
+		if(numberAttacks < 3)enemySr.color = new Color (0, 0, 0, 0.75f);
+		else isDead = true;
+	}
+
+	public void Attacks(int numberAttacks){
+		if(numberAttacks < 3){
+			enemySr.color = new Color (1, 0, 0, .5f);
+			StartCoroutine(WaitAndAnimate(0.2f, numberAttacks));
+		} else if(numberAttacks > 2){
+			enemyPc.enabled = false;
+			animator.SetTrigger("Die");
+			StartCoroutine(WaitAndAnimate(0.4f, numberAttacks));
+		}
+	}
+
 }
 
