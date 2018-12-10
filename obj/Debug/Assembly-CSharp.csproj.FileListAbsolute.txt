@@ -1,0 +1,2 @@
+C:\Users\ronal\Desktop\ninjathegame-master\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+C:\Users\ronal\Desktop\ninjathegame-master\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache

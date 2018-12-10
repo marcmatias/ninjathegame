@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -19,7 +20,17 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] private bool crouch;
 	[SerializeField] private GameObject attack;
 	[SerializeField] private GameObject attack2;
-	private bool facingRight;
+    public AudioClip themeSound;
+    public AudioClip soundAttack1;
+    public AudioClip soundAttack2;
+    public AudioClip soundDano;
+    public AudioClip soundEnemy1;
+    public AudioClip soundEnemy2;
+    public AudioClip soundEnemy3;
+    public AudioClip soundJumper;
+    public AudioClip soundQueda;
+    
+    private bool facingRight;
 	private int i = 0;
 	public bool FacingRight
 	{
@@ -27,7 +38,8 @@ public class PlayerController : MonoBehaviour {
 	}
 	private int x = 0;
 	void Start () {
-		rb2d = GetComponent<Rigidbody2D>();	
+		rb2d = GetComponent<Rigidbody2D>();
+        AudioSource.PlayClipAtPoint(themeSound,transform.position);
 	}
 	
 	void FixedUpdate(){
@@ -55,7 +67,12 @@ public class PlayerController : MonoBehaviour {
 			animator.SetBool("isJumping", false);
 		}else if (isGrounded == false && scriptVida.vivo == true){
 			animator.SetBool("isJumping", true);
+            
 		}
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            AudioSource.PlayClipAtPoint(soundJumper, transform.position);
+        }
 		if(Input.GetKeyDown(KeyCode.Space) && isGrounded == true && scriptVida.vivo == true){
 			rb2d.AddForce(new Vector2(0f, jumpForce));
 		}
@@ -69,17 +86,22 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (Input.GetKeyDown(KeyCode.X)){
 			animator.SetBool("isAttacking", true);
+            AudioSource.PlayClipAtPoint(soundAttack1, transform.position);
 		}else if (!Input.GetKeyDown(KeyCode.X)){
 			animator.SetBool("isAttacking", false);
 		}
 		if (Input.GetKeyDown(KeyCode.C)){
 			animator.SetBool("isAttacking2", true);
-		}else if (!Input.GetKeyDown(KeyCode.C)){
+            AudioSource.PlayClipAtPoint(soundAttack2, transform.position);
+        }
+        else if (!Input.GetKeyDown(KeyCode.C)){
 			animator.SetBool("isAttacking2", false);
 		}
 		if (scriptVida.vivo == false && x == 0){
 			animator.SetTrigger("isDead");
-			x++;
+            AudioSource.PlayClipAtPoint(soundQueda, transform.position);
+            StartCoroutine(WaitAndAnimate(1.5f));
+            x++;
 		}
 	}
 
@@ -111,19 +133,31 @@ public class PlayerController : MonoBehaviour {
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.CompareTag("enemy_attack"))
+		if (other.gameObject.CompareTag("enemy_attack") && scriptVida.vivo == true)
 		{
-			scriptVida.alterarVida(5);
+            AudioSource.PlayClipAtPoint(soundEnemy1, transform.position);
+            AudioSource.PlayClipAtPoint(soundDano, transform.position);
+            scriptVida.alterarVida(5);
 		}
-		if (other.gameObject.CompareTag("enemy_attack_skeleton"))
+		if (other.gameObject.CompareTag("enemy_attack_skeleton") && scriptVida.vivo == true)
 		{
-			scriptVida.alterarVida(10);
+            AudioSource.PlayClipAtPoint(soundEnemy2, transform.position);
+            AudioSource.PlayClipAtPoint(soundDano, transform.position);
+            scriptVida.alterarVida(10);
 		}
-		if (other.gameObject.CompareTag("enemy_attack_hellhound"))
+		if (other.gameObject.CompareTag("enemy_attack_hellhound") && scriptVida.vivo == true)
 		{
-			scriptVida.alterarVida(8);
+            AudioSource.PlayClipAtPoint(soundEnemy3, transform.position);
+            AudioSource.PlayClipAtPoint(soundDano, transform.position);
+            scriptVida.alterarVida(8);
 		}
-		if (other.gameObject.CompareTag("life"))
+        if (other.gameObject.CompareTag("enemy_attack_boss") && scriptVida.vivo == true)
+        {
+            AudioSource.PlayClipAtPoint(soundEnemy3, transform.position);
+            AudioSource.PlayClipAtPoint(soundDano, transform.position);
+            scriptVida.alterarVida(15);
+        }
+        if (other.gameObject.CompareTag("life"))
 		{
 			scriptVida.alterarVida(-100);
 		}
@@ -134,8 +168,17 @@ public class PlayerController : MonoBehaviour {
 			this.GetComponent<SpriteRenderer>().color = new Color (1, 0, 0, .5f);
 			if (i == 0){
 				rb2d.AddForce(new Vector2(0f, 1900f));
-				i++;
+                AudioSource.PlayClipAtPoint(soundQueda, transform.position);
+                StartCoroutine(WaitAndAnimate(1.5f));
+                i++;
 			}
 		}
 	}
+
+    public IEnumerator WaitAndAnimate(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        SceneManager.LoadScene("GameOVer");
+    }
+
 }

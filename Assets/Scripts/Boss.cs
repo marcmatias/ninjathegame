@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class Boss : MonoBehaviour {
 
@@ -21,7 +23,9 @@ public class Boss : MonoBehaviour {
 	[SerializeField]
 	private BoxCollider2D enemyPc;
 
-	private bool isDead;
+    [SerializeField] private GameObject attack;
+
+    private bool isDead;
 	void Start () {
 		destino.position = B.position;
 		transform.position = A.position;	
@@ -58,8 +62,7 @@ public class Boss : MonoBehaviour {
 			this.velocidade = 0f;
 			if((player.transform.position.x > transform.position.x) && (facingRight == true)) Flip();
 
-			if ((player.transform.position.x < transform.position.x)  && (facingRight == false))
-				Flip();
+			if ((player.transform.position.x < transform.position.x)  && (facingRight == false)) Flip();
 			animator.SetBool("Attack", true);
 		
 		} else if((Vector2.Distance(player.transform.position, transform.position) > 3.5 && numberAttacks < 5) && seePlayer == true){
@@ -93,20 +96,38 @@ public class Boss : MonoBehaviour {
 	}
 	public IEnumerator WaitAndAnimate(float waitTime, int numberAttacks) {
 		yield return new WaitForSeconds(waitTime);
-		if(numberAttacks < 3)enemySr.color = new Color (0, 0, 0, 0.75f);
-		else isDead = true;
+        if (numberAttacks < 5) enemySr.color = new Color(0, 0, 0, 0.75f);
+        else
+        {
+            isDead = true;
+            SceneManager.LoadScene("Victory");
+        }
 	}
 
-	public void Attacks(int numberAttacks){
-		if(numberAttacks < 3){
-			enemySr.color = new Color (1, 0, 0, .5f);
-			StartCoroutine(WaitAndAnimate(0.2f, numberAttacks));
-		} else if(numberAttacks > 2){
-			enemyPc.enabled = false;
-			animator.SetTrigger("Die");
-			StartCoroutine(WaitAndAnimate(0.4f, numberAttacks));
-		}
-	}
+    public void Attacks(int numberAttacks)
+    {
+        if (numberAttacks < 5)
+        {
+            enemySr.color = new Color(1, 0, 0, .5f);
+            StartCoroutine(WaitAndAnimate(0.2f, numberAttacks));
+        }
+        else if (numberAttacks > 4)
+        {
+            this.velocidade = 0f;
+            animator.SetTrigger("Die");
+            StartCoroutine(WaitAndAnimate(1.6f, numberAttacks));
+        }
+    }
+
+    public void onColliderAttack()
+    {
+        attack.GetComponent<BoxCollider2D>().enabled = true;
+    }
+
+    public void offColliderAttack()
+    {
+        attack.GetComponent<BoxCollider2D>().enabled = false;
+    }
 
 }
 

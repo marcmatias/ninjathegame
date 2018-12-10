@@ -13,6 +13,7 @@ TagManager:
   - enemy_attack_hellhound
   - life
   - queda
+  - enemy_attack_boss
   layers:
   - Default
   - TransparentFX

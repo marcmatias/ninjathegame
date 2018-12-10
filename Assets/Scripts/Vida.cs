@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class Vida : MonoBehaviour {
 
 
@@ -21,7 +23,7 @@ public class Vida : MonoBehaviour {
 	void Update () {
 		if(this.vida == 0)
 		{
-			vivo = false;
+            vivo = false;        
 		}
 	}
 

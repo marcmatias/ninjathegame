@@ -91,7 +91,7 @@ public class SkeletonController : MonoBehaviour {
 			this.velocidade = 0f;
 			enemyCc.enabled = false;
 			animator.SetTrigger("Die");
-			StartCoroutine(WaitAndAnimate(1.6f, numberAttacks));
+			StartCoroutine(WaitAndAnimate(3.5f, numberAttacks));
 		}
 	}
 
